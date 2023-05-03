@@ -3,8 +3,13 @@ title: "Mapping Crime Data in R - Shapefiles"
 author: "Nadia Kennar, Research Associate with the UKDS"
 date: "8th March 2023"
 output:
+  pdf_document: default
   html_notebook: default
+  html_document:
+    df_print: paged
 toc: yes
+editor_options:
+  chunk_output_type: inline
 ---
 
 ```{r set up, include=FALSE}
@@ -63,7 +68,7 @@ I collected my shapefile data via the UKDS Census Support *(https://borders.ukda
 ## Read in the Shapefile for 'Surrey Heath' 
 
 ```{r}
-shp_file <- sf::st_read("~/Documents/Crime_R_Workshop/Crime_Data_in_R/March_2023/Data/Shapefile/england_lsoa_2021.shp")
+shp_file <- sf::st_read("/Users/shihaitao/Library/Mobile Documents/com~apple~CloudDocs/Documents/M1_Documents/爱丁堡大学培训/MappingCrimeData/MappingCrimeData/Data/Shapefile/england_lsoa_2021.shp")
 ```
 
 You can also use the head() function in shapefiles!
@@ -345,28 +350,28 @@ tm_shape(surrey_lsoa)+
 
 #1)
 
-... <- tm_shape(.....) + 
-  tm_fill("...", style = "....") + 
+h <- tm_shape(surrey_lsoa) + 
+  tm_fill("count", style = "hclust") + 
   tm_borders(alpha = 0.3)
 
 
-... <- tm_shape(........) + 
-  tm_fill("...", style = ".....") + 
+b <- tm_shape(surrey_lsoa) + 
+  tm_fill("count", style = "bclust") + 
   tm_borders(alpha = 0.3)
 
 
 #2) 
 
-tmap_arrange(...., ....)
+tmap_arrange(h,b)
 
 
 
 #3) 
 
-tmap_mode("....")
+tmap_mode("view")
 
-tm_shape(.....) + 
-  tm_fill(....., style = .....) + 
+tm_shape(surrey_lsoa) + 
+  tm_fill("count", style = "bclust") + 
   tm_borders(alpha = 0.3)
 
 

@@ -3,6 +3,7 @@ title: "Mapping Crime Data in R - Exploring Crime Data"
 author: "Nadia Kennar, Research Associate with the UKDS"
 date: "8th March 2023"
 output:
+  pdf_document: default
   html_notebook: default
 toc: yes
 ---
@@ -60,7 +61,7 @@ Read in just the month of February 2022.
 #unzip(file.choose())
 
 library(readr)
-crime <- read_csv("~/Documents/Crime_R_Workshop/Crime_Data_in_R/March_2023/Data/crime_data/2022-02/2022-02-surrey-street.csv") %>% janitor::clean_names()
+crime <- read_csv("/Users/shihaitao/Library/Mobile Documents/com~apple~CloudDocs/Documents/M1_Documents/爱丁堡大学培训/MappingCrimeData/MappingCrimeData/Data/crime_data/2022-02/2022-02-surrey-street.csv") %>% janitor::clean_names()
 ```
 
 
@@ -236,17 +237,17 @@ Steps;
 ```{r}
 
 #1)
-subset(sf, ..... ==  .....  )
+subset(sf, crime_type ==  "Drugs" )
 
 
 #2) 
-drugs <- subset(sf, ..... == ..... ) 
+drugs <- subset(sf, crime_type == "Drugs" ) 
 
 
 #3)
 ggplot() +
-  ..............() +
-  geom_sf(data = .....) 
+  annotation_map_tile() +
+  geom_sf(data = drugs)
 
 ```
 

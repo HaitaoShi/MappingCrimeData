@@ -90,7 +90,7 @@ qmplot(longitude, latitude, data = crime, colour = crime_type, size = I(3), dark
 # ## Lets just say you were interested in a specific area (in this example we will use Crawley 002B)
 # 
 # ## Ariel Map of Crawley 002B
- geocode("Crawley 002B")
+ geocode("Crawley 002B") #打名字会告诉你经度和纬度
 # 
 
 Crawley <- c(long = -0.152210, lat = 51.15813)

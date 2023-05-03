@@ -41,7 +41,7 @@ library(spdep)
 library(leaflet) 
 library(RColorBrewer)
 library(tmap)
-
+library(readxl)
 ```
 
 
@@ -68,12 +68,12 @@ So lets read in the data and use the clean_names() function again to lowercase a
 We are going to start with just the resident population which is the data set named 'res_count.xlsx'
 
 ```{r}
-residential_count <- read_excel("~/Documents/Crime_R_Workshop/Crime_Data_in_R/March_2023/Data/census_data/res_count.xlsx") %>% clean_names() %>%
+residential_count <- read_excel("/Users/shihaitao/Library/Mobile Documents/com~apple~CloudDocs/Documents/M1_Documents/爱丁堡大学培训/MappingCrimeData/MappingCrimeData/Data/census_data/res_count.xlsx") %>% clean_names() %>%
   rename(lsoa = e01030757, #rename the variables 
          name = surrey_heath_002a, 
          res_count = x330) 
 
-head(res_count)
+head(residential_count)
 ```
 
 
@@ -187,7 +187,7 @@ ggplot(cart) +
 We have succesfully mapped theresidential population, now lets do the same with the variable workday (economic activity). First step is to read and clean the data as seen here:
 
 ```{r}
-workday_count <- read_excel("~/Documents/Crime_R_Workshop/Crime_Data_in_R/March_2023/Data/census_data/work_count.xlsx") %>% clean_names() %>%
+workday_count <- read_excel("/Users/shihaitao/Library/Mobile Documents/com~apple~CloudDocs/Documents/M1_Documents/爱丁堡大学培训/MappingCrimeData/MappingCrimeData/Data/census_data/work_count.xlsx") %>% clean_names() %>%
   rename(lsoa = e01030757, #rename the variables 
          name = surrey_heath_002a, 
          work_count = x330) 
@@ -226,36 +226,36 @@ Is there a difference between the crime rate when using workday population compa
 # 1) First calculate the crime rate, assign it a new variable and named it crimerate2
 
 surrey_lsoa <- surrey_lsoa %>% 
-  mutate(crime_rate2 = (count/......)*...)
+  mutate(crime_rate2 = (count/workday_count)*1000)
 
 
 #2) Plot using ggplot 
 
 ggplot() + 
   annotation_map_tile() + 
-  geom_sf(data = ....., aes(fill = ......), alpha = 0.5) + 
+  geom_sf(data = surrey_lsoa, aes(fill = crime_rate2), alpha = 0.5) + 
   scale_fill_gradient2(name ="Crime Rate")
 
 
 #3) Plot using tmap 
 
 tm_shape(surrey_lsoa) + 
-  tm_fill(....., style = "quantile") + 
+  tm_fill(crime_rate2, style = "quantile") + 
   tm_borders(alpha = 0.3)
 
 
 #4) Compare the workday vs residential population 
 
 e <- tm_shape(surrey_lsoa) + 
-  tm_fill(....., style = "quantile", title = "Workday Pop") + 
+  tm_fill("crime_rate", style = "quantile", title = "Workday Pop") + 
   tm_borders(alpha = 0.3)
 
 f <- tm_shape(surrey_lsoa) + 
-  tm_fill(....., style = "quantile", title = "Residential pop") + 
+  tm_fill("crime_rate2", style = "quantile", title = "Residential pop") + 
   tm_borders(alpha = 0.3)
 
 
-tmap_arrange(...., .....)
+tmap_arrange(e, f)
 
 
 
